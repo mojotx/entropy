@@ -2,6 +2,8 @@
 
 You can estimate the strength of a password with the following formula, where `N` is the number of possible characters from which you're drawing your password, and `L` is the length of the password.
 
+$$E = log_2(N^L)$$
+
 Security is all about trade-offs between the value of whatever you are protecting, and the effort required to defeat the security measures. There are [tools available](https://www.openwall.com/john/) that will allow you to automate cracking a password, whether that's by brute-force, a dictionary-based attack, or a combination of the two.
 
 It's generally desirable to have an entropy value greater than 100. At that point, it will either take an incredibly powerful supercomputer to break the password, or else it will take an inordinate amount of time.
