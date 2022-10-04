@@ -24,23 +24,35 @@ func main() {
 		log.Fatal().Msg("must specify two integer values")
 	}
 
-	N, err := strconv.ParseUint(os.Args[1], 10, 64)
+	// n is the number of possible characters, such as 26 lowercase letters,
+	// or 10 numeric digits
+	n, err := strconv.ParseUint(os.Args[1], 10, 64)
 	if err != nil {
 		log.Fatal().Err(err).Msgf("could not parse %q as integer", os.Args[1])
 	}
 
-	L, err := strconv.ParseUint(os.Args[2], 10, 64)
+	// l is the length of the password
+	l, err := strconv.ParseUint(os.Args[2], 10, 64)
 	if err != nil {
 		log.Fatal().Err(err).Msgf("could not parse %q as integer", os.Args[2])
 	}
 
-	product := math.Pow(float64(N), float64(L))
-	// p := message.NewPrinter(language.English)
-	// s := p.Sprintf("%d\n", 1000)
+	// cache the value of n^l
+	value := math.Pow(float64(n), float64(l))
 
-	printer := message.NewPrinter(language.English)
-	prodString := printer.Sprintf("%d", int64(product))
+	// tp will add commas to indicate thousands
+	tp := message.NewPrinter(language.English)
 
-	log.Info().Msgf("%d ^ %d = %s", N, L, prodString)
-	log.Info().Msgf("log2( %s ) = %f", prodString, math.Log2(product))
+	// vs is the value string, e.g., 1,234,567 instead of 1234567
+	vs := tp.Sprintf("%d", int64(value))
+
+	// e is the entropy bits
+	e := math.Log2(value)
+
+	// debugging info for checking the math
+	log.Debug().Msgf("%d ^ %d = %s", n, l, vs)
+	log.Debug().Msgf("log2( %s ) = %f", vs, e)
+
+	// print the entropy bits
+	log.Info().Msgf("%f", e)
 }
